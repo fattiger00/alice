@@ -8,6 +8,8 @@ import 'package:alice/core/alice_http_client_adapter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'ui/alice_calls_list_screen.dart';
+
 class Alice {
   GlobalKey<NavigatorState> _navigatorKey;
   AliceCore _core;
@@ -61,5 +63,9 @@ class Alice {
 
   List getChopperInterceptor() {
     return new List()..add(AliceChopperInterceptor(_core));
+  }
+
+  Widget buildInspector() {
+    return AliceCallsListScreen(_core);
   }
 }
