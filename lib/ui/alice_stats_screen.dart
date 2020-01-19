@@ -1,6 +1,6 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class AliceStatsScreen extends StatelessWidget {
   final AliceCore aliceCore;
@@ -11,16 +11,17 @@ class AliceStatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     int bytesSent = _getBytesSent();
     int bytesReceived = _getBytesReceived();
-    return Theme(
-        data: ThemeData(brightness: aliceCore.brightness),
-        child: Scaffold(
-          appBar: AppBar(
-            title: Text("Alice - HTTP Inspector - Stats"),
-          ),
-          body: Container(
-              padding: EdgeInsets.all(10),
-              child: SingleChildScrollView(
-                  child: Column(
+    return CupertinoTheme(
+      data: CupertinoThemeData(brightness: aliceCore.brightness),
+      child: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: Text("Alice - Stats"),
+        ),
+        child: SafeArea(
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: SingleChildScrollView(
+              child: Column(
                 children: <Widget>[
                   _getRow("Total requests:", "${_getTotalRequests()}"),
                   _getRow("Pending requests:", "${_getPendingRequests()}"),
@@ -44,8 +45,12 @@ class AliceStatsScreen extends StatelessWidget {
                   _getRow("Secured requests:", "${_getSecuredRequests()}"),
                   _getRow("Unsecured requests:", "${_getUnsecuredRequests()}"),
                 ],
-              ))),
-        ));
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   Row _getRow(String label, String value) {

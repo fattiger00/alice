@@ -3,7 +3,7 @@ import 'package:alice/ui/alice_calls_list_screen.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
 import 'package:alice/ui/alice_save_helper.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shake/shake.dart';
@@ -74,7 +74,7 @@ class AliceCore {
       _isInspectorOpened = true;
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => AliceCallsListScreen(this)),
+        CupertinoPageRoute(builder: (context) => AliceCallsListScreen(this)),
       ).then((onValue) => _isInspectorOpened = false);
     }
   }

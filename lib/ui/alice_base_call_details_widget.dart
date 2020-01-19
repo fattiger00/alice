@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class AliceBaseCallDetailsWidget extends StatelessWidget {
   final JsonEncoder encoder = new JsonEncoder.withIndent('  ');
