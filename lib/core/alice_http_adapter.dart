@@ -37,7 +37,7 @@ class AliceHttpAdapter {
 
     AliceHttpRequest httpRequest = AliceHttpRequest();
 
-    if (response.request is http.Request) {
+    if (response.request is http.BaseRequest) {
       // we are guranteed the existence of body and headers
       httpRequest.body = body ?? (response.request as http.Request).body ?? "";
       httpRequest.size = utf8.encode(httpRequest.body.toString()).length;
