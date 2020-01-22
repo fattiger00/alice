@@ -3,10 +3,11 @@ import 'dart:io';
 import 'package:alice/alice.dart';
 import 'package:alice_example/posts_service.dart';
 import 'package:chopper/chopper.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 void main() => runApp(MyApp());
 
@@ -33,27 +34,26 @@ class _MyAppState extends State<MyApp> {
       interceptors: alice.getChopperInterceptor(),
     );
     postsService = PostsService.create(chopper);
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return CupertinoApp(
       navigatorKey: alice.getNavigatorKey(),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Alice HTTP Inspector example'),
+      home: CupertinoPageScaffold(
+        navigationBar: CupertinoNavigationBar(
+          middle: const Text('Alice'),
         ),
-        body: Center(
+        child: Center(
             child:
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          RaisedButton(
+          CupertinoButton(
             child: Text("Run HTTP Requests"),
             onPressed: _runHttpRequests,
           ),
-          RaisedButton(
+          CupertinoButton(
             child: Text("Run HTTP Insepctor"),
             onPressed: _runHttpInspector,
           )

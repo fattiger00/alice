@@ -1,5 +1,5 @@
 import 'package:alice/model/alice_http_call.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 import 'alice_base_call_details_widget.dart';
 
@@ -36,14 +36,17 @@ class AliceCallResponseWidget extends AliceBaseCallDetailsWidget {
         });
       }
       return Container(
-          padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
-          child: ListView(children: rows));
+        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+        child: CupertinoScrollbar(
+          child: ListView(children: rows),
+        ),
+      );
     } else {
       return Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          new CircularProgressIndicator(),
+          new CupertinoActivityIndicator(),
           Text("Awaiting response...")
         ],
       ));

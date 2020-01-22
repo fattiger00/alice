@@ -1,6 +1,6 @@
 import 'package:alice/core/alice_core.dart';
 import 'package:alice/model/alice_http_call.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:share/share.dart';
 
 import 'alice_call_error_widger.dart';
@@ -21,6 +21,7 @@ class AliceCallDetailsScreen extends StatefulWidget {
 class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
     with SingleTickerProviderStateMixin {
   Widget _previousState;
+  int currentSegment = 0;
 
   @override
   void initState() {
@@ -29,48 +30,64 @@ class _AliceCallDetailsScreenState extends State<AliceCallDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-        data: ThemeData(brightness: widget.core.brightness),
+    return CupertinoTheme(
+        data: CupertinoThemeData(
+          brightness: widget.core.brightness,
+        ),
         child: StreamBuilder<AliceHttpCall>(
             stream: widget.core.callUpdateSubject,
             initialData: widget.call,
             builder: (context, callSnapshot) {
               if (widget.call.id == callSnapshot.data.id) {
-                _previousState = DefaultTabController(
-                    length: 4,
-                    child: Scaffold(
-                        floatingActionButton: FloatingActionButton(
-                          key: Key('share_key'),
-                          onPressed: () {
-                            Share.share(_getSharableResponseString(),
-                                subject: 'Request Details');
-                          },
-                          child: Icon(Icons.share),
-                        ),
-                        appBar: AppBar(
-                          bottom: TabBar(tabs: _getTabBars()),
-                          title: Text('Alice - HTTP Inspector - Details'),
-                        ),
-                        body: TabBarView(children: _getTabBarViewList())));
+                _previousState = CupertinoPageScaffold(
+                  navigationBar: CupertinoNavigationBar(
+                    middle: Text('Alice - Details'),
+                    trailing: CupertinoButton(
+                      key: Key('share_key'),
+                      padding: EdgeInsets.zero,
+                      minSize: 0,
+                      child: Icon(CupertinoIcons.share, size: 26,),
+                      onPressed: () {
+                        Share.share(_getSharableResponseString(),
+                            subject: 'Request Details');
+                      },
+                    ),
+                  ),
+                  child: CupertinoTabScaffold(
+                    tabBar: CupertinoTabBar(
+                      items: [
+                        BottomNavigationBarItem(
+                            icon: Icon(CupertinoIcons.info),
+                            title: Text('Overview')),
+                        BottomNavigationBarItem(
+                            icon: Icon(CupertinoIcons.up_arrow),
+                            title: Text('Request')),
+                        BottomNavigationBarItem(
+                            icon: Icon(CupertinoIcons.down_arrow),
+                            title: Text('Response')),
+                        BottomNavigationBarItem(
+                            icon: Icon(CupertinoIcons.tags),
+                            title: Text('Error')),
+                      ],
+                    ),
+                    tabBuilder: (context, index) {
+                      return _getTabBarViewList()[index];
+                    },
+                  ),
+                );
               }
               return _previousState;
             }));
   }
 
-  String _getSharableResponseString() {
-    return '${widget.call.getCallLog()}\n\n${widget.call.getCurlCommand()}';
+  void onValueChanged(int newValue) {
+    setState(() {
+      currentSegment = newValue;
+    });
   }
 
-  List<Widget> _getTabBars() {
-    List<Widget> widgets = List();
-    widgets.add(Tab(icon: Icon(Icons.info_outline), text: "Overview"));
-    widgets.add(Tab(icon: Icon(Icons.arrow_upward), text: "Request"));
-    widgets.add(Tab(icon: Icon(Icons.arrow_downward), text: "Response"));
-    widgets.add(Tab(
-      icon: Icon(Icons.warning),
-      text: "Error",
-    ));
-    return widgets;
+  String _getSharableResponseString() {
+    return '${widget.call.getCallLog()}\n\n${widget.call.getCurlCommand()}';
   }
 
   List<Widget> _getTabBarViewList() {
