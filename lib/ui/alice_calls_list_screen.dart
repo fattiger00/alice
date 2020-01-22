@@ -53,7 +53,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         ),
         child: Builder(
           builder: (context) {
-            print(CupertinoTheme.brightnessOf(context));
             return Container(
               color: CupertinoDynamicColor.withBrightness(
                 color: CupertinoColors.white,
