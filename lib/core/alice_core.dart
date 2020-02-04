@@ -2,7 +2,6 @@ import 'package:alice/model/alice_http_error.dart';
 import 'package:alice/ui/alice_calls_list_screen.dart';
 import 'package:alice/model/alice_http_call.dart';
 import 'package:alice/model/alice_http_response.dart';
-import 'package:alice/ui/alice_save_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/rxdart.dart';
@@ -159,7 +158,7 @@ class AliceCore {
   }
 
   void saveHttpRequests(BuildContext context) {
-    AliceSaveHelper.saveCalls(context, calls);
+    // AliceSaveHelper.saveCalls(context, calls);
   }
 
   Brightness get brightness => _brightness;

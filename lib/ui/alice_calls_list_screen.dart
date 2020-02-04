@@ -5,7 +5,6 @@ import 'package:alice/model/alice_http_call.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart' show Icons, Theme, ThemeData;
 
-import 'alice_alert_helper.dart';
 import 'alice_call_list_item.dart';
 import 'alice_stats_screen.dart';
 
@@ -74,20 +73,14 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
           child: Text('Delete'),
           onPressed: () {
             Navigator.pop(context);
-            _showRemoveDialog();
+            _removeCalls();
           },
         ),
         CupertinoActionSheetAction(
-            child: Text('Stats'),
-            onPressed: () {
-              Navigator.pop(context);
-              _showStatsScreen();
-            }),
-        CupertinoActionSheetAction(
-          child: Text('Save'),
+          child: Text('Stats'),
           onPressed: () {
             Navigator.pop(context);
-            _saveToFile();
+            _showStatsScreen();
           },
         ),
       ],
@@ -156,15 +149,6 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
     );
   }
 
-  void _showRemoveDialog() {
-    AliceAlertHelper.showAlert(
-        context, "Delete calls", "Do you want to delete http calls?",
-        firstButtonTitle: "No",
-        firstButtonAction: () => {},
-        secondButtonTitle: "Yes",
-        secondButtonAction: () => _removeCalls());
-  }
-
   void _removeCalls() {
     widget._aliceCore.removeCalls();
   }
@@ -176,9 +160,5 @@ class _AliceCallsListScreenState extends State<AliceCallsListScreen> {
         builder: (context) => AliceStatsScreen(widget._aliceCore),
       ),
     );
-  }
-
-  void _saveToFile() async {
-    widget._aliceCore.saveHttpRequests(context);
   }
 }
